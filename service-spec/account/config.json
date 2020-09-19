@@ -1,5 +1,5 @@
 {
-  "name": "bookstore",
+  "name": "accountservice",
   "version": "3.0.1",
   "groupId": "com.mservicetech",
   "artifactId": "account-service-seata",

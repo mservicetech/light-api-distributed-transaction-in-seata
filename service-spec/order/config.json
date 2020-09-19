@@ -1,8 +1,8 @@
 {
-  "name": "bookstore",
+  "name": "orderservice",
   "version": "3.0.1",
   "groupId": "com.mservicetech",
-  "artifactId": "account-service-seata",
+  "artifactId": "order-service-seata",
   "rootPackage": "com.mservicetech.orderservice",
   "handlerPackage": "com.mservicetech.orderservice.handler",
   "modelPackage": "com.mservicetech.orderservice.model",

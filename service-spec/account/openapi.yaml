@@ -25,8 +25,12 @@ paths:
             - 'read:accounts'
             - 'write:accounts'
       responses:
-        '201':
-          description: Null response
+        '200':
+          description: OK response
+          content:
+            application/json:
+              schema:
+                type: string
         default:
           description: unexpected error
           content:

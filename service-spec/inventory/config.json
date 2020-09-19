@@ -1,8 +1,8 @@
 {
-  "name": "bookstore",
+  "name": "inventoryservice",
   "version": "3.0.1",
   "groupId": "com.mservicetech",
-  "artifactId": "account-service-seata",
+  "artifactId": "inventory-service-seata",
   "rootPackage": "com.mservicetech.inventoryservice",
   "handlerPackage": "com.mservicetech.inventoryservice.handler",
   "modelPackage": "com.mservicetech.inventoryservice.model",
