@@ -1,0 +1,16 @@
+version: '3'
+services:
+  seata_mysql_3307:
+    # image: mysql:8.0
+    build:
+      context: .
+    container_name: seata-mysql-3307
+    command: mysqld --user=root
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: "seata_db"
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: "passWord00"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+      MYSQL_ROOT_PASSWORD: "passWord00"

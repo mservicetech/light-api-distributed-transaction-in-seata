@@ -1,0 +1,151 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title:  Account service Seata swagger
+  license:
+    name: MIT
+servers:
+  - url: 'http://www.mservicetech.com/v1'
+paths:
+  /accounts/transactions:
+    post:
+      summary: Create a transaction
+      operationId: createtransaction
+      requestBody:
+        description: a new transaction to account
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      tags:
+        - accounts
+      security:
+        - account_auth:
+            - 'read:accounts'
+            - 'write:accounts'
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /accounts/{accountId}:
+    get:
+      summary: Info for a specific account
+      operationId: getAccountById
+      tags:
+        - accounts
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The id of the account
+          schema:
+            type: string
+      security:
+        - account_auth:
+            - 'read:accounts'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /accounts/{accountId}/reset:
+    put:
+      summary: update account with new transaction
+      operationId: updateAccount
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The id of the account
+          schema:
+            type: string
+      requestBody:
+        description: a new transaction to account
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+      tags:
+        - accounts
+      security:
+        - account_auth:
+            - 'read:accounts'
+            - 'write:accounts'
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    account_auth:
+      type: oauth2
+      description: This API uses OAuth 2 with the client credential grant flow.
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://localhost:6882/token'
+          scopes:
+            'write:accounts': modify accounts in
+            'read:accounts': read accounts
+  schemas:
+    Account:
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        accountName:
+          type: string
+        accountBalance:
+          type: number
+    Transaction:
+      type: object
+      required:
+        - transactionId
+      properties:
+        transactionId:
+          type: integer
+          format: int64
+        accountId:
+          type: integer
+          format: int64
+        transactioType:
+          type: string
+          format: int64
+        transactioDate:
+          type: string
+          format: date
+        refId:
+          type: string
+        amount:
+          type: number
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
