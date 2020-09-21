@@ -134,7 +134,10 @@ components:
           format: int64
         transactioType:
           type: string
-          format: int64
+          enum:
+            - PURCHASE
+            - DEPOSIT
+            - FEE
         transactioDate:
           type: string
           format: date
