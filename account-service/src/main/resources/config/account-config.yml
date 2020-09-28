@@ -1,0 +1,3 @@
+queryMap:
+  getAccountById: select account_id, account_name, account_balance from account where account_id = ?;
+

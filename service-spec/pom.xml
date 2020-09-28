@@ -13,7 +13,6 @@
 
 
     <dependencies>
-
         <dependency>
             <groupId>com.networknt</groupId>
             <artifactId>codegen-fwk</artifactId>
@@ -21,10 +20,6 @@
         <dependency>
             <groupId>com.networknt</groupId>
             <artifactId>codegen-cli</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.networknt</groupId>
-            <artifactId>codegen-web</artifactId>
         </dependency>
     </dependencies>
 
@@ -92,4 +87,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
