@@ -29,7 +29,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
 
-@Ignore
+
 public class AccountsAccountIdGetHandlerTest {
     @ClassRule
     public static TestServer server = TestServer.getInstance();
@@ -54,7 +54,7 @@ public class AccountsAccountIdGetHandlerTest {
             throw new ClientException(e);
         }
         final AtomicReference<ClientResponse> reference = new AtomicReference<>();
-        String requestUri = "/v1/accounts/TCyPZQBvfgewLHRPPKRXNItX";
+        String requestUri = "/v1/accounts/1";
         String httpMethod = "get";
         try {
             ClientRequest request = new ClientRequest().setPath(requestUri).setMethod(Methods.GET);

@@ -117,18 +117,14 @@ components:
         accountId:
           type: integer
           format: int64
+          nullable: true
         accountName:
           type: string
         accountBalance:
           type: number
     Transaction:
       type: object
-      required:
-        - transactionId
       properties:
-        transactionId:
-          type: integer
-          format: int64
         accountId:
           type: integer
           format: int64
@@ -138,9 +134,6 @@ components:
             - PURCHASE
             - DEPOSIT
             - FEE
-        transactioDate:
-          type: string
-          format: date
         refId:
           type: string
         amount:

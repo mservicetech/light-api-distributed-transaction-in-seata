@@ -1,7 +1,11 @@
 
 package com.mservicetech.accountservic.handler;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mservicetech.accountservic.model.Account;
 import com.networknt.client.Http2Client;
+import com.networknt.config.Config;
 import com.networknt.exception.ClientException;
 import com.networknt.openapi.ResponseValidator;
 import com.networknt.schema.SchemaValidatorsConfig;
@@ -23,13 +27,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xnio.IoUtils;
 import org.xnio.OptionMap;
+
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
 
-@Ignore
 public class AccountsAccountIdResetPutHandlerTest {
     @ClassRule
     public static TestServer server = TestServer.getInstance();
@@ -54,15 +59,22 @@ public class AccountsAccountIdResetPutHandlerTest {
             throw new ClientException(e);
         }
         final AtomicReference<ClientResponse> reference = new AtomicReference<>();
-        String requestUri = "/v1/accounts/TyMoAbRHpUvpyvvIGA/reset";
+        String requestUri = "/v1/accounts/1/reset";
         String httpMethod = "put";
         try {
             ClientRequest request = new ClientRequest().setPath(requestUri).setMethod(Methods.PUT);
-            
+            Account account = new Account ();
+            account.setAccountId(1L);
+            account.setAccountName("test");
+            account.setAccountBalance(new BigDecimal(200));
+            ObjectMapper objectMapper = Config.getInstance().getMapper();
+            objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            String str = objectMapper.writeValueAsString(account);
+            System.out.println("json:" + str);
             request.getRequestHeaders().put(Headers.CONTENT_TYPE, JSON_MEDIA_TYPE);
             request.getRequestHeaders().put(Headers.TRANSFER_ENCODING, "chunked");
             //customized header parameters 
-            connection.sendRequest(request, client.createClientCallback(reference, latch, "{\"content\": \"request body to be replaced\"}"));
+            connection.sendRequest(request, client.createClientCallback(reference, latch, str));
             
             latch.await();
         } catch (Exception e) {

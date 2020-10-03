@@ -50,22 +50,13 @@ server.buildNumber: latest
 # datasource.yml
 #--------------------------------------------------------------------------------
 
-datasource.MysqlDataSource:
-  DriverClassName: com.mysql.jdbc.Driver
-  jdbcUrl: jdbc:mysql://localhost:3308/account_db?useSSL=false
-  username: account_user
-  password: CRYPT:odPqWOazjDxeVcOU3j0YCc2+LdwfgiJmoFcWTSoKRUw=
+datasource.H2DataSource:
+  DriverClassName: org.h2.jdbcx.JdbcDataSource
+  jdbcUrl: jdbc:h2:mem:XE;MODE=MYSQL;INIT=runscript from 'classpath:scripts/setup-account-db.sql';
+  username: sa
+  H2Password: sa
   maximumPoolSize: 2
-  connectionTimeout: 5000
-  parameters:
-    useServerPrepStmts: 'true'
-    cachePrepStmts: 'true'
-    cacheCallableStmts: 'true'
-    prepStmtCacheSize: '4096'
-    prepStmtCacheSqlLimit: '2048'
-    verifyServerCertificate: 'false'
-    useSSL: 'true'
-    requireSSL: 'true'
+  connectionTimeout: 500
 
 
 #--------------------------------------------------------------------------------
@@ -110,8 +101,8 @@ service.singletons:
       - com.networknt.decrypt.AESDecryptor
 
   - com.networknt.db.GenericDataSource:
-      - com.networknt.db.MysqlDataSource:
-          - java.lang.String: MysqlDataSource
+      - com.networknt.db.H2DataSource:
+          - java.lang.String: H2DataSource
 
   - com.mservicetech.accountservic.repository.AccountRepository:
       - com.mservicetech.accountservic.repository.AccountRepositoryImpl

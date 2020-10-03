@@ -1,6 +1,6 @@
 queryMap:
   getAccountById: select account_id, account_name, account_balance from account where account_id = ?;
   updateAccountById: update account set account_balance = ? where account_id = ?;
-  createTransaction: insert into transaction (account_id, tx_date, tx_type, tx_amount) values (?, CURRENT_TIMESTAMP(), ?, ?);
+  createTransaction: insert into transaction (account_id, tx_date, tx_type, tx_amount) values (?, now(), ?, ?);
 
 

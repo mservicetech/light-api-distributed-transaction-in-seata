@@ -23,7 +23,7 @@ mvn clean install -Prelease
 With the fatjar in the target directory, you can start the server with the following command.
 
 ```
-java -jar target/fat.jar
+java -jar target/account-service-seata-3.0.1.jar
 ```
 
 ## Test

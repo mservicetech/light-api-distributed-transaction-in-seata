@@ -45,8 +45,6 @@ public class Transaction  {
     
     private java.math.BigDecimal amount;
     private String refId;
-    private java.lang.Long transactionId;
-    private java.time.LocalDate transactioDate;
 
     public Transaction () {
     }
@@ -87,24 +85,6 @@ public class Transaction  {
         this.refId = refId;
     }
 
-    @JsonProperty("transactionId")
-    public java.lang.Long getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(java.lang.Long transactionId) {
-        this.transactionId = transactionId;
-    }
-
-    @JsonProperty("transactioDate")
-    public java.time.LocalDate getTransactioDate() {
-        return transactioDate;
-    }
-
-    public void setTransactioDate(java.time.LocalDate transactioDate) {
-        this.transactioDate = transactioDate;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -120,21 +100,19 @@ public class Transaction  {
         return Objects.equals(accountId, Transaction.accountId) &&
                Objects.equals(transactioType, Transaction.transactioType) &&
                Objects.equals(amount, Transaction.amount) &&
-               Objects.equals(refId, Transaction.refId) &&
-               Objects.equals(transactionId, Transaction.transactionId) &&
-               Objects.equals(transactioDate, Transaction.transactioDate);
+               Objects.equals(refId, Transaction.refId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountId, transactioType, amount, refId, transactionId, transactioDate);
+        return Objects.hash(accountId, transactioType, amount, refId);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class Transaction {\n");
-        sb.append("    accountId: ").append(toIndentedString(accountId)).append("\n");        sb.append("    transactioType: ").append(toIndentedString(transactioType)).append("\n");        sb.append("    amount: ").append(toIndentedString(amount)).append("\n");        sb.append("    refId: ").append(toIndentedString(refId)).append("\n");        sb.append("    transactionId: ").append(toIndentedString(transactionId)).append("\n");        sb.append("    transactioDate: ").append(toIndentedString(transactioDate)).append("\n");
+        sb.append("    accountId: ").append(toIndentedString(accountId)).append("\n");        sb.append("    transactioType: ").append(toIndentedString(transactioType)).append("\n");        sb.append("    amount: ").append(toIndentedString(amount)).append("\n");        sb.append("    refId: ").append(toIndentedString(refId)).append("\n");
         sb.append("}");
         return sb.toString();
     }

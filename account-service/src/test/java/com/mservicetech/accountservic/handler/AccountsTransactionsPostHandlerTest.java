@@ -1,7 +1,11 @@
 
 package com.mservicetech.accountservic.handler;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mservicetech.accountservic.model.Transaction;
 import com.networknt.client.Http2Client;
+import com.networknt.config.Config;
 import com.networknt.exception.ClientException;
 import com.networknt.openapi.ResponseValidator;
 import com.networknt.schema.SchemaValidatorsConfig;
@@ -23,13 +27,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xnio.IoUtils;
 import org.xnio.OptionMap;
+
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
 
-@Ignore
+
 public class AccountsTransactionsPostHandlerTest {
     @ClassRule
     public static TestServer server = TestServer.getInstance();
@@ -58,11 +64,18 @@ public class AccountsTransactionsPostHandlerTest {
         String httpMethod = "post";
         try {
             ClientRequest request = new ClientRequest().setPath(requestUri).setMethod(Methods.POST);
-            
+            Transaction transaction = new Transaction();
+            transaction.setAccountId(1L);
+            transaction.setTransactioType(Transaction.TransactioTypeEnum.DEPOSIT);
+            transaction.setAmount(new BigDecimal(20));
+            ObjectMapper objectMapper = Config.getInstance().getMapper();
+            objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            String str = objectMapper.writeValueAsString(transaction);
+            System.out.println("json:" + str);
             request.getRequestHeaders().put(Headers.CONTENT_TYPE, JSON_MEDIA_TYPE);
             request.getRequestHeaders().put(Headers.TRANSFER_ENCODING, "chunked");
             //customized header parameters 
-            connection.sendRequest(request, client.createClientCallback(reference, latch, "{\"content\": \"request body to be replaced\"}"));
+            connection.sendRequest(request, client.createClientCallback(reference, latch, str));
             
             latch.await();
         } catch (Exception e) {
@@ -72,17 +85,12 @@ public class AccountsTransactionsPostHandlerTest {
             IoUtils.safeClose(connection);
         }
         String body = reference.get().getAttachment(Http2Client.RESPONSE_BODY);
+        System.out.println("body:" + body);
         Optional<HeaderValues> contentTypeName = Optional.ofNullable(reference.get().getResponseHeaders().get(Headers.CONTENT_TYPE));
         SchemaValidatorsConfig config = new SchemaValidatorsConfig();
         ResponseValidator responseValidator = new ResponseValidator(config);
         int statusCode = reference.get().getResponseCode();
-        Status status;
-        if(contentTypeName.isPresent()) {
-            status = responseValidator.validateResponseContent(body, requestUri, httpMethod, String.valueOf(statusCode), contentTypeName.get().getFirst());
-        } else {
-            status = responseValidator.validateResponseContent(body, requestUri, httpMethod, String.valueOf(statusCode), JSON_MEDIA_TYPE);
-        }
-        Assert.assertNull(status);
+        Assert.assertEquals(statusCode, 200);
     }
 }
 
