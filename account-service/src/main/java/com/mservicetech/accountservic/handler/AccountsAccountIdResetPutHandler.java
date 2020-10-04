@@ -29,7 +29,7 @@ public class AccountsAccountIdResetPutHandler implements LightHttpHandler {
              accountService.resetAccount(Long.parseLong(id), account);
             exchange.getResponseHeaders().add(new HttpString("Content-Type"), "application/json");
             exchange.setStatusCode(201);
-            exchange.getResponseSender().send("{}");
+            exchange.getResponseSender().send("{Reset OK}");
         } catch (ApiException e) {
             logger.error("Error Occurred: " + e.getMessage());
             setExchangeStatus(exchange, e.getStatus());

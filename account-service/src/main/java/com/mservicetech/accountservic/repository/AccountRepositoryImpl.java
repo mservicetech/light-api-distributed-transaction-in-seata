@@ -67,6 +67,7 @@ public class AccountRepositoryImpl implements  AccountRepository{
                 throw new IllegalArgumentException("Balance less than 0, need rollback transaction");
             }
         }
+
         try(Connection connection = dataSource.getConnection()){
             connection.setAutoCommit(false);
             try (final PreparedStatement createstatement = connection.prepareStatement(getQueryString(CREATE_TRANSACTION))) {
@@ -76,7 +77,7 @@ public class AccountRepositoryImpl implements  AccountRepository{
                 createstatement.executeUpdate();
             }
             try (final PreparedStatement statement = connection.prepareStatement(getQueryString(UPDATE_ACCOUNT_BY_ID))) {
-                statement.setBigDecimal(1, transaction.getAmount());
+                statement.setBigDecimal(1, account.getAccountBalance());
                 statement.setLong(2, transaction.getAccountId());
                 int rec = statement.executeUpdate();
                 if (rec<1) {

@@ -60,7 +60,7 @@
                 <version>1.4.0</version>
                 <executions>
                     <execution>
-                        <id>light4j-codegen</id>
+                        <id>light4j-codegen-account</id>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>exec</goal>
@@ -79,6 +79,29 @@
                                 <argument>account/openapi.yaml</argument>
                                 <argument>-c</argument>
                                 <argument>account/config.json</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>light4j-codegen-inventory</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-jar</argument>
+                                <argument>${settings.localRepository}/com/networknt/codegen-cli/${version.light-4j}/codegen-cli-${version.light-4j}.jar</argument>
+                                <argument>-f</argument>
+                                <argument>openapi</argument>
+                                <argument>-o</argument>
+                                <argument>../inventory-service</argument>
+                                <argument>-m</argument>
+                                <argument>inventory/openapi.yaml</argument>
+                                <argument>-c</argument>
+                                <argument>inventory/config.json</argument>
                             </arguments>
                         </configuration>
                     </execution>

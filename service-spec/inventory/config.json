@@ -18,7 +18,8 @@
   "supportDb": true,
   "supportH2ForTest": true,
   "supportClient": true,
-  "specChangeCodeReGenOnly": false,
+  "specChangeCodeReGenOnly": true,
+  "skipPomFile": true,
   "generateValuesYml": true,
   "dockerOrganization": "mservicetech",
   "generateEnvVars": {
